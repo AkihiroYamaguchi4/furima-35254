@@ -10,6 +10,11 @@ RSpec.describe User, type: :model do
      it 'ニックネーム,メールアドレス,本名の苗字と氏名,それぞれの読み仮名,生年月日,passwordとpassword_confirmationが存在すれば登録できること' do
        expect(@user).to be_valid
      end
+     it 'パスワードは、半角英数字を含む6文字以上での入力が必須であること' do
+      @user.password = '1234ab'
+      @user.password_confirmation = '1234ab'
+      expect(@user).to be_valid
+     end
     end
    context 'ユーザー登録ができない時' do
      it 'ニックネームが空では登録できないこと' do
@@ -40,11 +45,6 @@ RSpec.describe User, type: :model do
       @user.password = ''
       @user.valid?
       expect(@user.errors.full_messages).to include("Password can't be blank")
-     end
-     it 'パスワードは、半角英数字を含む6文字以上での入力が必須であること' do
-      @user.password = '1234ab'
-      @user.password_confirmation = '1234ab'
-      expect(@user).to be_valid
      end
      it 'passwordが半角英数字を含む5文字以下であれば登録できないこと' do
       @user.password = '123ab'
