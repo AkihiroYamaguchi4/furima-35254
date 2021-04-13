@@ -55,22 +55,54 @@ RSpec.describe User, type: :model do
     end
 
     it 'パスワードとパスワード（確認用）、値の一致が必須であること' do
-
+      @user.password = '1234ab'
+      @user.password_confirmation = '12345ab'
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
     end
     it 'ユーザー本名は、名字と名前がそれぞれ必須であること' do
-
+      @user.family_name = ''
+      @user.first_name = ''
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Family name can't be blank", "Family name 全角ひらがな、全角カタカナ、漢字で入力して下さい")
     end
-    it 'ユーザー本名は、全角（漢字・ひらがな・カタカナ）での入力が必須であること' do
+    it 'ユーザー本名は、名字と名前がそれぞれ必須であること' do
+      @user.family_name = '山田'
+      @user.first_name = ''
+      @user.valid?
+      expect(@user.errors.full_messages).to include("First name can't be blank", "First name 全角ひらがな、全角カタカナ、漢字で入力して下さい")
+    end
+    it 'ユーザー本名は、名字と名前がそれぞれ必須であること' do
+      @user.family_name = ''
+      @user.first_name = '陸太郎'
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Family name can't be blank", "Family name 全角ひらがな、全角カタカナ、漢字で入力して下さい")
+    end
 
+    it 'ユーザー本名は、全角（漢字・ひらがな・カタカナ）での入力が必須であること' do
+      @user.family_name = 'aaaa'
+      @user.first_name = 'aaaa'
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Family name 全角ひらがな、全角カタカナ、漢字で入力して下さい", "First name 全角ひらがな、全角カタカナ、漢字で入力して下さい")
+   
     end
     it 'ユーザー本名のフリガナは、名字と名前がそれぞれ必須であること' do
-
+      @user.family_name_reading = ''
+      @user.first_name_reading = ''
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Family name reading can't be blank", "Family name reading 全角カタカナで入力して下さい", "First name reading can't be blank", "First name reading 全角カタカナで入力して下さい")
     end
     it 'ユーザー本名のフリガナは、全角（カタカナ）での入力が必須であること' do
-
+      @user.family_name_reading = 'aaaa'
+      @user.first_name_reading = 'bbbb'
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Family name reading 全角カタカナで入力して下さい", "First name reading 全角カタカナで入力して下さい")
+   
     end
     it '生年月日が必須であること' do
-
+      @user.birth_id = ''
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Birth can't be blank")
     end
     it '' do
 
