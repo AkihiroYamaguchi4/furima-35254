@@ -8,8 +8,8 @@ class Item < ApplicationRecord
     validates :product
     validates :information
     validates :image
-    with_options format: { with: /\A[0-9]+\z/, message: '半角数字で入力して下さい' } do
-      validates :selling_price, numericality: { in: 300..9_999_999 }
-    end
+    validates :selling_price
   end
+  validates :selling_price,numericality: { only_integer: true,greater_than: 300, less_than: 9999999 }
+  validates :selling_price,format: { with: /\A[0-9]+\z/, message: '半角数字で入力して下さい' }
 end
