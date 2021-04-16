@@ -39,7 +39,7 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include('Condition is not a number')
       end
       it '状態が---だと出品できないこと' do
-        @item.condition_id = "1"
+        @item.condition_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include('Condition must be other than 1')
       end
