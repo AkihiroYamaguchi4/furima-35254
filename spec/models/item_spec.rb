@@ -33,7 +33,12 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include("Category is not a number")
       end
-      it '状態が空だと出品できないこと' do
+      it 'カテゴリーが---だと出品できないこと' do
+        @item.category_id = "---"
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Category is not a number")
+      end
+        it '状態が空だと出品できないこと' do
         @item.condition_id = ''
         @item.valid?
         expect(@item.errors.full_messages).to include('Condition is not a number')
