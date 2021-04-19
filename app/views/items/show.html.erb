@@ -20,16 +20,15 @@
       </span>
       <span class="item-postage">
         <%= "配送料負担" %>
-      </span>
+      </span>  
+    </div>
 
-      
-    </div><% if user_signed_in? && @item[0] != nil %>
+  <% if user_signed_in?  %>
   <% if current_user.id == @item.user_id %>
     <%= link_to "商品の編集", "#", method: :get, class: "item-red-btn" %>
     <p class="or-text">or</p>
-    <% else %>
     <%= link_to "削除", "#", method: :delete, class:"item-destroy" %>
-
+   <% else %>
     <%# 商品が売れていない場合はこちらを表示しましょう %>
     <%= link_to "購入画面に進む", "#" ,class:"item-red-btn"%>
     <%# //商品が売れていない場合はこちらを表示しましょう %>
@@ -45,7 +44,7 @@
       <tbody>
         <tr>
           <th class="detail-item">出品者</th>
-          <td class="detail-value"><%= @item.user_id %></td>
+          <td class="detail-value"><%= @item.user.nickname %></td>
         </tr>
         <tr>
           <th class="detail-item">カテゴリー</th>
