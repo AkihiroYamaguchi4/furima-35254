@@ -2,7 +2,7 @@ class Item < ApplicationRecord
   belongs_to :user
   has_one_attached :image
   extend ActiveHash::Associations::ActiveRecordExtensions
-  belongs_to :category 
+  belongs_to :category
   belongs_to :condition
   belongs_to :shipping_fee
   belongs_to :prefecture
@@ -14,6 +14,6 @@ class Item < ApplicationRecord
     validates :image
     validates :selling_price
   end
-  validates :selling_price,numericality: { only_integer: true,greater_than: 300, less_than: 9999999 }
-  validates :selling_price,format: { with: /\A[0-9]+\z/, message: '半角数字で入力して下さい' }
+  validates :selling_price, numericality: { only_integer: true, greater_than: 300, less_than: 9_999_999 }
+  validates :selling_price, format: { with: /\A[0-9]+\z/, message: '半角数字で入力して下さい' }
 end

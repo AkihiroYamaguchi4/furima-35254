@@ -29,16 +29,16 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Information can't be blank")
       end
       it 'カテゴリーが空だと出品できないこと' do
-        @item.category_id = ""
+        @item.category_id = ''
         @item.valid?
-        expect(@item.errors.full_messages).to include("Category is not a number")
+        expect(@item.errors.full_messages).to include('Category is not a number')
       end
       it 'カテゴリーが---だと出品できないこと' do
-        @item.category_id = "---"
+        @item.category_id = '---'
         @item.valid?
-        expect(@item.errors.full_messages).to include("Category is not a number")
+        expect(@item.errors.full_messages).to include('Category is not a number')
       end
-        it '状態が空だと出品できないこと' do
+      it '状態が空だと出品できないこと' do
         @item.condition_id = ''
         @item.valid?
         expect(@item.errors.full_messages).to include('Condition is not a number')
@@ -48,7 +48,6 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include('Condition must be other than 1')
       end
-      
 
       it '発送の負担が空だと出品できないこと' do
         @item.shipping_fee_id = ''
@@ -86,16 +85,15 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Selling price can't be blank")
       end
       it '販売価格が上限以上だと出品できないこと' do
-        @item.selling_price = 100000000
+        @item.selling_price = 100_000_000
         @item.valid?
-        expect(@item.errors.full_messages).to include("Selling price must be less than 9999999")
+        expect(@item.errors.full_messages).to include('Selling price must be less than 9999999')
       end
       it '販売価格が上限以下だと出品できないこと' do
         @item.selling_price = 299
         @item.valid?
         expect(@item.errors.full_messages).to include('Selling price must be greater than 300')
       end
-      
 
       it '販売価格が全角数字だと出品できないこと' do
         @item.selling_price = '２９９'
