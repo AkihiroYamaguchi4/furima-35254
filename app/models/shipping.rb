@@ -1,6 +1,3 @@
 class Shipping < ApplicationRecord
-  belongs_to :item
-  belongs_to :user
-  has_one :shipping
-  
+  belongs_to :purchase
 end
