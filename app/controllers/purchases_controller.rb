@@ -1,7 +1,7 @@
 class PurchasesController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_purchase, only: [:index,:create]
   def index
-   @item = Item.find(params[:item_id])
    @puchase_shipping = PurchaseShipping.new
   end
 
@@ -10,7 +10,7 @@ class PurchasesController < ApplicationController
   if @puchase_shipping.valid?
     pay_item
     @puchase_shipping.save
-    return redirect_to root_path
+     redirect_to root_path
    else
     render :index
   end
@@ -22,12 +22,14 @@ class PurchasesController < ApplicationController
  end
  
  def pay_item
- 
     Payjp.api_key = ENV["PAYJP_SECRET_KEY"] 
     Payjp::Charge.create(
       amount: Item.find(params[:item_id]).selling_price,
       card: purchase_params[:token],    # カードトークン
       currency: 'jpy'                 # 通貨の種類（日本円）
     )
+ end
+ def set_purchase
+  @item = Item.find(params[:item_id])
  end
 end
