@@ -1,6 +1,6 @@
 class PurchaseShipping
   include ActiveModel::Model
-  attr_accessor :postal_code, :prefecture, :city, :house_number, :building_name, :phone_number, :item_id, :user_id 
+  attr_accessor :postal_code, :prefecture, :city, :house_number, :building_name, :phone_number, :item_id, :user_id ,:token
   
   with_options presence: true do
     validates :user_id
@@ -12,7 +12,7 @@ class PurchaseShipping
   validates :prefecture, numericality: {other_than: 0, message: "can't be blank"}
   
   def save
-   purchase = Parchase.create(item_id: item_id, user_id: user_id)
-   Shipping.create(postal_code: postal_code, prefecture: prefecture, city: city, house_number: house_number, building_name: building_name, phone_number: phone_number, purchase_id: purchase.id)
+   purchase = Purchase.create(item_id: item_id, user_id: user_id)
+   Shipping.create(postal_code: postal_code, prefecture_id: prefecture, city: city, house_number: house_number, building_name: building_name, phone_number: phone_number, purchase_id: purchase.id)
   end
 end
