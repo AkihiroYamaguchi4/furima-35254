@@ -12,6 +12,10 @@ RSpec.describe PurchaseShipping, type: :model do
       it 'すべての値が正しく入力されていれば保存できること' do
         expect(@purchase_shipping).to be_valid
       end
+      it 'building_nameは空でも保存できること' do
+        @purchase_shipping.building_name = ''
+        expect(@purchase_shipping).to be_valid
+      end
     end
 
     context '内容に問題がある場合' do
@@ -36,7 +40,7 @@ RSpec.describe PurchaseShipping, type: :model do
         expect(@purchase_shipping.errors.full_messages).to include('Postal code is invalid. Include hyphen(-)')
       end
       it 'prefectureを選択していないと保存できないこと' do
-        @purchase_shipping.prefecture = '0'
+        @purchase_shipping.prefecture = 0
         @purchase_shipping.valid?
         expect(@purchase_shipping.errors.full_messages).to include("Prefecture can't be blank")
       end
@@ -50,10 +54,7 @@ RSpec.describe PurchaseShipping, type: :model do
         @purchase_shipping.valid?
         expect(@purchase_shipping.errors.full_messages).to include("House number can't be blank")
       end
-      it 'building_nameは空でも保存できること' do
-        @purchase_shipping.building_name = ''
-        expect(@purchase_shipping).to be_valid
-      end
+      
       it 'phone_numberは空だと保存できないこと' do
         @purchase_shipping.phone_number = ''
         @purchase_shipping.valid?
@@ -71,6 +72,11 @@ RSpec.describe PurchaseShipping, type: :model do
       end
       it 'phone_numberは半角英数字を含むと保存できないこと' do
         @purchase_shipping.phone_number = '0901111111k'
+        @purchase_shipping.valid?
+        expect(@purchase_shipping.errors.full_messages).to include('Phone number PhoneNumber must be 11 digit Half-width numbers')
+      end
+      it 'phone_numberは12桁以上の数字を含むと保存できないこと' do
+        @purchase_shipping.phone_number = '090111111111'
         @purchase_shipping.valid?
         expect(@purchase_shipping.errors.full_messages).to include('Phone number PhoneNumber must be 11 digit Half-width numbers')
       end
