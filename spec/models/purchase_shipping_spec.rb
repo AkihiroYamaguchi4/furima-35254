@@ -5,7 +5,7 @@ RSpec.describe PurchaseShipping, type: :model do
     before do
       user = FactoryBot.create(:user)
       item = FactoryBot.create(:item)
-      @purchase_shipping = FactoryBot.build(:purchase_shipping,user_id: user.id , item_id: item.id)
+      @purchase_shipping = FactoryBot.build(:purchase_shipping, user_id: user.id, item_id: item.id)
       sleep 0.1
     end
     context '内容に問題ない場合' do
@@ -21,30 +21,29 @@ RSpec.describe PurchaseShipping, type: :model do
         expect(@purchase_shipping.errors.full_messages).to include("Postal code can't be blank")
       end
       it 'postal_codeが半角のハイフンを含んだ正しい形式でないと保存できないこと' do
-        @purchase_shipping.postal_code = 1234567
+        @purchase_shipping.postal_code = 1_234_567
         @purchase_shipping.valid?
-        expect(@purchase_shipping.errors.full_messages).to include("Postal code is invalid. Include hyphen(-)")
+        expect(@purchase_shipping.errors.full_messages).to include('Postal code is invalid. Include hyphen(-)')
       end
       it 'postal_codeが全角数字だと保存できないこと' do
         @purchase_shipping.postal_code = '１２３-４５６７'
         @purchase_shipping.valid?
-        expect(@purchase_shipping.errors.full_messages).to include("Postal code is invalid. Include hyphen(-)")
+        expect(@purchase_shipping.errors.full_messages).to include('Postal code is invalid. Include hyphen(-)')
       end
       it 'postal_codeが半角英字だと保存できないこと' do
         @purchase_shipping.postal_code = 'abc-defg'
         @purchase_shipping.valid?
-        expect(@purchase_shipping.errors.full_messages).to include("Postal code is invalid. Include hyphen(-)")
-      end  
+        expect(@purchase_shipping.errors.full_messages).to include('Postal code is invalid. Include hyphen(-)')
+      end
       it 'prefectureを選択していないと保存できないこと' do
         @purchase_shipping.prefecture = '0'
         @purchase_shipping.valid?
         expect(@purchase_shipping.errors.full_messages).to include("Prefecture can't be blank")
-      
       end
       it 'cityはだと保存できないこと' do
         @purchase_shipping.city = ''
         @purchase_shipping.valid?
-        expect(@purchase_shipping.errors.full_messages).to include("City can't be blank")   
+        expect(@purchase_shipping.errors.full_messages).to include("City can't be blank")
       end
       it 'house_numberは空だと保存できないこと' do
         @purchase_shipping.house_number = ''
@@ -63,19 +62,19 @@ RSpec.describe PurchaseShipping, type: :model do
       it 'phone_numberは全角数字だと保存できないこと' do
         @purchase_shipping.phone_number = '０９０１２３４５６７８'
         @purchase_shipping.valid?
-        expect(@purchase_shipping.errors.full_messages).to include("Phone number PhoneNumber must be 11 digit Half-width numbers")
+        expect(@purchase_shipping.errors.full_messages).to include('Phone number PhoneNumber must be 11 digit Half-width numbers')
       end
       it 'phone_numberは半角英字だと保存できないこと' do
         @purchase_shipping.phone_number = 'abcdefghijk'
         @purchase_shipping.valid?
-        expect(@purchase_shipping.errors.full_messages).to include("Phone number PhoneNumber must be 11 digit Half-width numbers")
+        expect(@purchase_shipping.errors.full_messages).to include('Phone number PhoneNumber must be 11 digit Half-width numbers')
       end
       it 'phone_numberは半角英数字を含むと保存できないこと' do
         @purchase_shipping.phone_number = '0901111111k'
         @purchase_shipping.valid?
-        expect(@purchase_shipping.errors.full_messages).to include("Phone number PhoneNumber must be 11 digit Half-width numbers")
+        expect(@purchase_shipping.errors.full_messages).to include('Phone number PhoneNumber must be 11 digit Half-width numbers')
       end
-      it "tokenが空では登録できないこと" do
+      it 'tokenが空では登録できないこと' do
         @purchase_shipping.token = nil
         @purchase_shipping.valid?
         expect(@purchase_shipping.errors.full_messages).to include("Token can't be blank")
