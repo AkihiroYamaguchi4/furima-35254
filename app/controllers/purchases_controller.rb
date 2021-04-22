@@ -2,6 +2,7 @@ class PurchasesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_purchase
   before_action :move_to_index
+  
   def index
     @puchase_shipping = PurchaseShipping.new
   end
