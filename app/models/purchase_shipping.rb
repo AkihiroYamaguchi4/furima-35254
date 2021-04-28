@@ -10,9 +10,9 @@ class PurchaseShipping
     validates :city
     validates :house_number
     validates :token
+    validates :prefecture, numericality: { other_than: 0, message: "can't be blank" }
   end
-  validates :prefecture, numericality: { other_than: 0, message: "can't be blank" }
-
+  
   def save
     purchase = Purchase.create(item_id: item_id, user_id: user_id)
     Shipping.create(postal_code: postal_code, prefecture_id: prefecture, city: city, house_number: house_number,
